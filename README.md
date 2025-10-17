@@ -28,7 +28,7 @@ By prototyping each component in a test scene, we gain the flexibility to troubl
 | game type      | :   |     pixel 32 bit |
 | controller     | :   |    keyboard keys |
 
-## Thangs to
+## Thangyou for
 
 ### For Tutorials
 
