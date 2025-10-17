@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmu5xkxakvaor"]
+
+[ext_resource type="Script" uid="uid://do6n2ide6mg34" path="res://scenes/ui/game_menus_screen.gd" id="1_qtks3"]
+[ext_resource type="PackedScene" uid="uid://bq0ts12b2dvus" path="res://scenes/ui/game_menu_screen_background.tscn" id="2_a8drg"]
+[ext_resource type="PackedScene" uid="uid://duydlmwxcwuwx" path="res://scenes/components/mouse_cursor_component.tscn" id="2_cwu2a"]
+[ext_resource type="Theme" uid="uid://ljcck66th0xd" path="res://scenes/ui/game_ui_theme.tres" id="3_cwu2a"]
+
+[node name="GameMenusScreen" type="CanvasLayer"]
+script = ExtResource("1_qtks3")
+
+[node name="MouseCursorComponent" parent="." instance=ExtResource("2_cwu2a")]
+
+[node name="GameMenuScreenBackground" parent="." instance=ExtResource("2_a8drg")]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_cwu2a")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5647059, 0.38431373, 0.3647059, 1)
+theme_override_colors/font_shadow_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 3
+theme_override_constants/shadow_outline_size = 3
+theme_override_font_sizes/font_size = 54
+text = "CROPTAILS"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(100, 29)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"GameMenuButton"
+text = "START"
+
+[node name="SaveGameButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"GameMenuButton"
+text = "SAVE"
+
+[node name="ExitGameButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"GameMenuButton"
+text = "SAVE"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/SaveGameButton" to="." method="_on_save_game_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ExitGameButton" to="." method="_on_exit_game_button_pressed"]

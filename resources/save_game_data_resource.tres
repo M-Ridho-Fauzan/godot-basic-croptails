@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://djem7w3hy72g7"]
+
+[ext_resource type="Script" uid="uid://cf6bq7b0jq7b6" path="res://resources/save_game_data_resource.gd" id="1_8gbkd"]
+
+[resource]
+script = ExtResource("1_8gbkd")

@@ -1,0 +1,112 @@
+[gd_scene load_steps=16 format=3 uid="uid://bcaxtvhewfnyh"]
+
+[ext_resource type="Script" uid="uid://bkh88halujnqf" path="res://scenes/characters/Chiken/chiken.gd" id="1_g41nw"]
+[ext_resource type="Texture2D" uid="uid://dp0ljtdgrqr8k" path="res://assets/game/characters/free_chicken_sprites.png" id="1_tjlj2"]
+[ext_resource type="Script" uid="uid://0xbj6ni51l57" path="res://script/state_machine/node_state_machine.gd" id="2_85uaw"]
+[ext_resource type="Script" uid="uid://fch0k3hugrci" path="res://scenes/characters/npc_states/idle_state.gd" id="3_5phop"]
+[ext_resource type="Script" uid="uid://ile0ok0mhg21" path="res://scenes/characters/npc_states/walk_state.gd" id="4_5phop"]
+[ext_resource type="PackedScene" uid="uid://d06hiflyafo3b" path="res://audio/sfx/chiken_cluck_multiple_sfx.tscn" id="6_71dlh"]
+[ext_resource type="PackedScene" uid="uid://bg8jc3cgnprge" path="res://scenes/components/audio_play_time_component.tscn" id="6_rn44x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_phki0"]
+atlas = ExtResource("1_tjlj2")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85uaw"]
+atlas = ExtResource("1_tjlj2")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g41nw"]
+atlas = ExtResource("1_tjlj2")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rn44x"]
+atlas = ExtResource("1_tjlj2")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71dlh"]
+atlas = ExtResource("1_tjlj2")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i05hd"]
+atlas = ExtResource("1_tjlj2")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5phop"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_phki0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85uaw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g41nw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rn44x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71dlh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i05hd")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uag36"]
+radius = 4.1231055
+
+[node name="Chiken" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_layer = 64
+script = ExtResource("1_g41nw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -6)
+sprite_frames = SubResource("SpriteFrames_5phop")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_uag36")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+path_postprocessing = 1
+avoidance_enabled = true
+radius = 5.0
+debug_enabled = true
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_node_state")]
+script = ExtResource("2_85uaw")
+initial_node_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("characters", "animated_sprite_2d")]
+script = ExtResource("3_5phop")
+characters = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("characters", "animated_sprite_2d", "navigation_agent_2d")]
+script = ExtResource("4_5phop")
+characters = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+navigation_agent_2d = NodePath("../../NavigationAgent2D")
+
+[node name="ChikenCluckMultipleSFX" parent="." instance=ExtResource("6_71dlh")]
+autoplay = true
+
+[node name="AudioPlayTimeComponent" parent="." node_paths=PackedStringArray("audio_stream_player_2d") instance=ExtResource("6_rn44x")]
+wait_time = 5.0
+autostart = true
+audio_stream_player_2d = NodePath("../ChikenCluckMultipleSFX")

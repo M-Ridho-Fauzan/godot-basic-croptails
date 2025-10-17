@@ -1,0 +1,47 @@
+[gd_scene load_steps=10 format=3 uid="uid://df2b0was662vs"]
+
+[ext_resource type="Texture2D" uid="uid://o2nrs4lxpydc" path="res://assets/game/objects/basic_grass_biom_things.png" id="1_a8qts"]
+[ext_resource type="Shader" uid="uid://bs0nj1oyehxji" path="res://scenes/objects/shake.gdshader" id="1_w057i"]
+[ext_resource type="Script" uid="uid://ddl1dxq2ka5wy" path="res://scenes/objects/trees/tree_state.gd" id="2_g5iuu"]
+[ext_resource type="PackedScene" uid="uid://iw6ss4ln5i0p" path="res://scenes/components/hurt_component.tscn" id="2_xyb6m"]
+[ext_resource type="PackedScene" uid="uid://csdxbnarg0twl" path="res://scenes/components/damage_component.tscn" id="4_w057i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w057i"]
+resource_local_to_scene = true
+shader = ExtResource("1_w057i")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8qts"]
+atlas = ExtResource("1_a8qts")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a8qts"]
+radius = 3.0
+height = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_au4vd"]
+size = Vector2(8, 13)
+
+[node name="SmallTree" type="Sprite2D"]
+material = SubResource("ShaderMaterial_w057i")
+texture = SubResource("AtlasTexture_a8qts")
+offset = Vector2(0, -5)
+script = ExtResource("2_g5iuu")
+log_drop_chance = 50
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["navigation_polygon_source_geometry_group"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_a8qts")
+
+[node name="HurtComponent" parent="." instance=ExtResource("2_xyb6m")]
+tool = 1
+
+[node name="HurtComponentCollisionShape2D" type="CollisionShape2D" parent="HurtComponent"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_au4vd")
+debug_color = Color(0.94230354, 0.23008713, 0.1964472, 0.41960785)
+
+[node name="DamageComponent" parent="." instance=ExtResource("4_w057i")]
