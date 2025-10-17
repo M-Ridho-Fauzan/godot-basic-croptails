@@ -1,0 +1,23 @@
+~ start_cow_pasture_box
+
+Pasture Box: [[Hi|Hello|Howdy]], your fucking animals are hungry bitc
+Pasture Box: Would you like to fucking feed your fucking cows
+- Yes
+	Marlow: Hell Yeah!, lets feed my fucking cows
+	do GameDialogueManager.action_feed_animals()
+- No
+	Marlow: Hell nah!!, I have enough breast milk!
+
+=> END
+
+~ start_chiken_pasture_box
+
+Pasture Box: [[Hi|Hello|Howdy]], your fucking animals are hungry bitc
+Pasture Box: Would you like to fucking feed your fucking chikens
+- Yes
+	Marlow: Hell Yeah!, lets feed my fucking chikens
+	do GameDialogueManager.action_feed_animals
+- No
+	Marlow: Hell nah!!, I have enough Egss!
+
+=> END
